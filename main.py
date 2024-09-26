@@ -9,7 +9,6 @@ import os
 import html
 from bs4 import BeautifulSoup
 
-config = json.load(open("input/config.json"))
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 
