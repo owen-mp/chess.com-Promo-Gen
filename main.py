@@ -9,6 +9,7 @@ import os
 import html
 from bs4 import BeautifulSoup
 
+config = json.load(open("input/config.json"))
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 
@@ -62,7 +63,7 @@ class Chess(object):
         return "".join(random.choices(string.ascii_lowercase + string.digits, k=32))
 
     def get_token(self) -> str:
-        resp = self.client.get("https://www.chess.com/register")
+        resp = self.client.get("https://www.chess.com/register", timeout_seconds=60, allow_redirects=True, )
         json_data = BeautifulSoup(resp.text, "html.parser").find('div', attrs={'id': 'registration'})['data-form-params']
         token = json.loads(html.unescape(json_data))['token']['value']
         return token
@@ -112,5 +113,5 @@ if __name__ == "__main__":
     thread_count = int(input(f"{Fore.BLUE}>>{Fore.WHITE} Threads -> "))
 
     while True:
-        for _ in range(thread_count):
+        if threading.active_count() - 1 < int(thread_count):
             threading.Thread(target=Chess().register).start()
