@@ -113,5 +113,5 @@ if __name__ == "__main__":
     thread_count = int(input(f"{Fore.BLUE}>>{Fore.WHITE} Threads -> "))
 
     while True:
-        if threading.active_count() - 1 < int(thread_count):
+        if threading.active_count() - 1 < thread_count:
             threading.Thread(target=Chess().register).start()
